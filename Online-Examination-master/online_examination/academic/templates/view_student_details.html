@@ -1,0 +1,81 @@
+<div style='display:none' id="student_details_view">
+    <div id='student_details_view' style='padding:10px; background:#fff;'>
+        <div class="sign_box">
+            <div class="row-fluid">
+                <div class="span12 sign_mid">
+	                <div id="main-title">
+						<div class="alert alert-info" align="Center"><h4>Student Details</h4></div>
+					</div>
+					<div class="section_1">
+						<div class="formrow student_detail_section">
+							<img src="/site_media/[[student.photo]]" ng-show="student.photo != ''"  class="staff_pic"/> 
+							<img src="/static/images/profile_pic.jpeg" ng-hide="student.photo != ''"  class="staff_pic"/>
+							<div class="control">
+								<label class="bold">Student Name</label> 
+								<label name="student_name" value="" ng-model="student_name">[[student.student_name]] </label> 
+								<label class="bold"> Registration No</label>
+								<label name="registration_no" value="" > &nbsp;[[student.registration_no]]</label>
+								<label class="bold"> Hallticket No</label>
+								<label name="hall_ticket_no" value="" > &nbsp;[[student.hall_ticket_no]]</label>
+
+								<label class="bold">Course</label>
+								<label name="course" value="" > &nbsp;[[student.course]]</label>
+								<label class="bold">Specialization</label>
+								<label name="specialization" value="" > &nbsp;[[ student.specialization ]]</label>
+								<label class="bold">Pass Out Year</label>
+								<label name="pass_out_year" value="" > &nbsp;[[ student.pass_out_year ]]</label>
+								<input type="radio"ng-model="show_password" value="Yes" ><label>Show Password</label>
+								<label  ng-show="show_password == 'Yes'" class="bold"> Password</label>
+								<label ng-show="show_password == 'Yes'" name="password" value="" > &nbsp;[[student.student_password]]</label>
+							</div>
+						</div>
+						<div class="formrow student_detail_section">
+							<h3> Personal Details </h3>
+							<label class="bold"> DOB</label>
+							<label name="dob" value="" > &nbsp;[[student.dob]]</label>
+							<label class="bold"> Age</label>
+							<label name="age" value="" > &nbsp;[[student.age]]</label>
+							<label class="bold">Address</label>
+							<label name="address" value="" > &nbsp;[[student.address]]</label>
+							<label class="bold"> Permanent Address</label>
+							<label name="permanent_address" value="" > &nbsp;[[student.permanent_address]]</label>
+							<label class="bold"> Mobile </label> 
+							<label name="mobile_number" value="" > &nbsp;[[student.mobile_number]]</label> 
+							<label class="bold"> Email</label>
+							<label name="email" value="" > &nbsp;[[student.email]]</label>
+							<label class="bold"> Guardian Name </label>
+							<label name="guardian_name" value="" > &nbsp;[[student.father_name]]</label> 
+							<label class="bold"> Guardian Mobile </label>
+							<label name="guardian_mobile_number" value="" > &nbsp;[[student.guardian_mobile_number]]</label> 
+						</div>
+					</div>				
+					<div  align="Center">
+						<div class="buttons">
+							<input type="button" class="btn btn-info" value="Close" ng-click="close_popup()" >
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

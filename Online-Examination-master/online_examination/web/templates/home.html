@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock title%}
+{% block controller %}
+	ng-controller="HomeController" ng-init="init('{{csrf_token}}')"
+{% endblock controller %}
+{% block content %}
+		{% if user.is_authenticated %}	
+			<h1 class="welcome"> Welcome to {{college_name}} </h1>
+
+		{% else %}
+		
+			<div class="login">
+				<div class="div_header">
+					Login
+				</div>
+				<div class="login_form_container">
+					<div class="control">
+						<input type="radio"ng-model="login_type" value="Admin" ><label>Admin Login</label>
+						<input type="radio"ng-model="login_type" value="Student"><label>Student Login</label>
+					</div>
+					<form name="login" method="post" action="{% url 'login' %}">
+						{% csrf_token %}
+						
+						<div class="control" ng-show="login_type == 'Admin'">
+							<p class="login_elements"> <label for="username" >Username:</label> <input type="text" name="username" /></p>
+							<p class="login_elements"> <label for="password">Password : </label><input type="password" name="password" /></p>
+							<p class="error_message error_element"> {{message}} </p>
+							<p class="login_button"> <input type="submit" name="submit" value="Login" />
+						</div>
+					</form>
+					<form name="login" method="post" action="{% url 'login' %}">
+						{% csrf_token %}
+						<div class="control" ng-show="login_type == 'Student'">
+							<p class="login_elements"> <label for="registration_no" >Registration No:</label> <input type="text" name="registration_no" /></p>
+							<p class="login_elements"> <label for="hallticket_no">Hall Ticket No : </label><input type="text" name="hallticket_no" /></p>
+							<p class="login_elements"> <label for="password">Password : </label><input type="password" name="password" /></p>
+							<p class="error_message error_element"> {{message}} </p>
+							<p class="login_button"> <input type="submit" name="submit" value="Login" />
+						</div>
+							
+					</form>
+				</div>
+				<div class="clear"></div>
+			</div>
+		{% endif %}
+{% endblock content %}

@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block title %}Edit Question{% endblock title %}
+{% block body_id %}edit_question{% endblock %}
+
+{% block controller %}
+	ng-controller="EditQuestionController" ng-init="init('{{csrf_token}}',{{question_id}})"
+{% endblock controller %}
+
+
+{% block content %}
+	
+<div class="container-center" align="Center">
+	<div class="col-xs-12 ">
+		<div class="row otr-brdr">
+			<div class="col-hd col-wrap">
+				<h4>Edit Questions</h4>
+			</div>
+			<div class="col-xs-12 col-wrap">
+				<form class="form-horizontal">
+					<div class="col-xs-12" >
+						<div class="form-group">
+								<label for="inputEmail3" class="col-xs-12 control-label">Question</label>
+							<div class="col-xs-12">
+						
+								<input class="form-control" name="" type="text" value="" placeholder="Question"  ng-model="question.question">
+							</div>
+						</div>
+						<div class="col-xs-12" >
+							<div class="row" >
+								<div class="col-lg-10 col-xs-8">
+									<div class="col-lt">
+										<div class="col-xs-12">
+
+											<div class="row" >
+												<div class="form-group"  ng-repeat="choice in question.choices">
+													<label for="inputEmail3" class="control-label">Enter the Correct Answer</label>
+													<input class="form-control" name="" type="text" ng-model="choice.choice" value="" placeholder="Enter the Correct Answer">
+													<input type="checkbox" ng-model="choice.correct_answer"><label>Tick If Correct Answer</label>
+												</div>
+
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-2 col-xs-4 col-md-1">
+									<div class="col-lt">
+
+										<div class="col-xs-12">
+											<span class="col-bottom-box-icon icon"><a href=""><i class="fa fa-plus" ng-click="add_choices()"></i></a></span>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+						<div class="col-xs-12 col-lg-6">
+							<div class="row" >
+								<div class="form-group">
+									<label for="inputPassword3" class="col-xs-12 control-label">Marks </label>
+									<div class="col-xs-12">
+										<input class="form-control" name="" type="text" value="" placeholder="Marks" ng-model="question.mark">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div>
+							<p class="error_message"> [[validation_error]] </p>			
+						</div>		
+						
+						</div>
+						<div  align="Center">
+							<div class="buttons">
+								<p ng-show="error_flag" class="error_message">[[message]]</p>
+								<input type="submit" value="Save and Continue" ng-click="save_question()" class="btn btn-info">
+							</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{% endblock content %}

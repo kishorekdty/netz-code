@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+{% block title %}Edit Student Details{% endblock title %}
+{% block body_id %}edit_student{% endblock %}
+
+{% block controller %}
+	ng-controller="EditStudentController" ng-init="init('{{csrf_token}}', '{{student_id}}')"
+{% endblock controller %}
+
+{% block content %}
+
+
+<div class="container-center" align="Center">
+  <div class="col-xs-12 ">
+    <div class="row otr-brdr">
+      <div class="col-hd col-wrap">
+        <h4>Student Registration</h4>
+        </div>
+        <div class="col-xs-12 col-hd-bottom">
+            <div class="row">
+                <div class="col-xs-12 col-lg-8">
+                  <form class="form-horizontal">
+                    <div class="form-group">
+                      <label for="inputEmail3" class="col-sm-5 control-label">Registration No</label>
+                      <div class="col-sm-7">
+                        <input type="text" class="form-control" id="inputEmail3" placeholder="Registration No" ng-model="student.registration_no"readonly>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="inputPassword3" class="col-sm-5 control-label"> Hall Ticket Number</label>
+                      <div class="col-sm-7">
+                        <input type="text" class="form-control" id="inputPassword3" placeholder="Hall Ticket Number" ng-model="student.hall_ticket_no"readonly>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="col-xs-12 col-lg-4">
+                  <img class="img-right" src="/site_media/[[student.photo]]" />
+                  <input class="input-fileread" type="file" fileread="student.photo.src"/>
+                  <input type="hidden" ng-model="student.photo.src"/>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-wrap" >
+        <form class="form-horizontal">
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-4 control-label">Name</label>
+            <div class="col-sm-6">
+              <input type="text" class="form-control" id="inputEmail3" placeholder="Name" ng-model="student.student_name">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-4 control-label">Age </label>
+            <div class="col-sm-6">
+              <input type="text" class="form-control" id="inputPassword3" placeholder="Age " ng-model="student.age">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-4 control-label">DOB</label>
+            <div class="col-sm-6">
+              <input type="text" class="form-control" ng-model="student.dob" id="dob" placeholder="DOB">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-4 control-label"> Address for communication</label>
+            <div class="col-sm-6">
+            <textarea class="form-control" placeholder=" Address for communication"ng-model="student.address" rows="3"></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-4 control-label"> Permanent address</label>
+            <div class="col-sm-6">
+            <textarea class="form-control" placeholder="Permanent address"ng-model="student.permanent_address" rows="3"></textarea>
+            </div>
+          </div>
+           
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-4 control-label"> How they know this institution</label>
+            <div class="col-sm-2">
+            <div class="checkbox">
+                <label>
+                  <input type="radio" ng-model="student.source_of_information" value="Newspaper" >Newspaper
+                </label>
+              </div>
+            </div>
+            <div class="col-sm-2">
+            <div class="checkbox">
+                <label>
+                  <input type="radio" ng-model="student.source_of_information" value="Ad">Ad
+                </label>
+              </div>
+            </div>
+            <div class="col-sm-2">
+            <div class="checkbox">
+                <label>
+                  <input type="radio" ng-model="student.source_of_information" value="Website">Website
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-4 control-label">Course </label>
+            <div class="col-sm-6">
+              <select name="course" ng-model="student.course" ng-change="get_semester() ">
+                  <option value="">Select</option>
+                  <option ng-repeat="course in courses" ng-selected="course.id==student.course_id"value="[[course.id]]" >[[course.course]]
+                  </option>
+              </select>
+            </div>
+          </div>
+         <!--  <div class="form-group">
+            <label for="inputPassword3" class="col-sm-4 control-label">Semester </label>
+            <div class="col-sm-6">
+              <select name="semester" ng-model="student.semester">
+                  <option value="">Select</option>
+                  <option ng-repeat="semester in semesters" ng-selected="semester.id==student.semester"value="[[semester.id]]" >[[semester.semester]]
+                  </option>
+                </select>
+            </div>
+          </div> -->
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-4 control-label"> Specialization</label>
+            <div class="col-sm-6">
+              <input type="text" class="form-control" id="inputPassword3"ng-model="student.specialization" placeholder=" Specialization ">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-4 control-label"> Pass Out Year</label>
+            <div class="col-sm-6">
+              <input type="text" class="form-control" id="inputPassword3"ng-model="student.pass_out_year" placeholder=" Pass Out Year ">
+            </div>
+          </div>
+           <div class="form-group">
+            <label for="inputPassword3" class="col-sm-4 control-label"> Father's Name</label>
+            <div class="col-sm-6">
+              <input type="text" class="form-control" id="inputPassword3"ng-model="student.father_name" placeholder=" Father's Name ">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-4 control-label"> Mobile number </label>
+            <div class="col-sm-6">
+              <input type="text" class="form-control" id="inputPassword3"ng-model="student.mobile_number" placeholder=" Mobile number ">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-4 control-label"> Parent mobile number </label>
+            <div class="col-sm-6">
+              <input type="text" class="form-control" id="inputPassword3" ng-model="student.guardian_mobile_number" placeholder=" Parent mobile number ">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-4 control-label"> E-mail id </label>
+            <div class="col-sm-6">
+              <input type="text" class="form-control" id="inputPassword3"ng-model="student.email" placeholder=" E-mail id ">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-4 control-label"></label>
+            <div class="col-sm-6">
+              <p class="error_message"> [[validation_error]] </p>
+              <input name="" class="btn btn-primary"ng-click="edit_student()" type="button" value="Save and Continue" />
+            </div>
+          </div>
+            
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock content %}

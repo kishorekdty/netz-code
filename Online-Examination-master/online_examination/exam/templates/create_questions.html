@@ -1,0 +1,270 @@
+{% extends 'base.html' %}
+{% block title %}Create Question{% endblock title %}
+{% block body_id %}create_question{% endblock %}
+
+{% block controller %}
+	ng-controller="QuestionController" ng-init="init('{{csrf_token}}')"
+{% endblock controller %}
+
+{% block dialogue_popup %}
+	      {% include 'view_marks.html' %}
+	      
+
+{% endblock %}
+
+{% block content %}
+	
+	
+<div class="container-center" align="Center">
+	<div class="col-xs-12 ">
+		<div class="row otr-brdr">
+			<div class="col-hd col-wrap">
+				<h4>Create Questions</h4>
+			</div>
+			<div class="col-xs-12 col-wrap">
+				<form class="form-horizontal">
+					<div class="row" >
+						<div class="col-xs-12" >
+							<div class="col-xs-12 col-lg-6">
+								<div class="form-group">
+									<label class="col-xs-12 control-label"> Course</label>  
+								</div>
+								<div class="col-xs-12">
+									<select class="form-control" name="course" ng-model="question_details.course" ng-options="course.id as course.course for course in courses" ng-change="get_semester()">
+										<option value="">Select</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-xs-12 col-lg-6">
+								<div class="form-group">
+									<label class="col-xs-12 control-label"> Semester</label>  
+								</div>
+								<div class="col-xs-12">
+									<select  class="form-control" name="semester" ng-model="question_details.semester" ng-options="semester.id as semester.semester for semester in semesters" ng-change="get_exams()">
+										<option value="">Select</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row" >
+						<div class="col-xs-12" >
+							<div class="col-xs-12 col-lg-6">
+								<div  class="form-group">
+									<label class="col-xs-12 control-label"> Exam</label>  
+								</div>
+								<div class="col-xs-12">
+									<input  class="form-control" type="text" name="exam_name" ng-model="exam_name" readonly>
+									<label ng-model="question_number"> [[question_number]]</label>
+								</div>
+							</div>
+							<div class="col-xs-12 col-lg-6">
+								<div  class="form-group">
+									<label class="col-xs-12 control-label"> Subject </label>  
+								</div>
+								<div class="col-xs-12">
+									<select class="form-control" class="form-control" name="subject" ng-model="question_details.subject" ng-options="subject as subject.subject for subject in subjects" ng-change="get_subject()">
+										<option value="">Select</option>	
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12">
+						<div class="row">
+							<div class="col-lg-10 col-xs-8">
+								<div class="col-lt">
+									<div class="col-xs-12 col-border">
+										<p>Add Questions</p>
+										<div>
+											<label>Total Subject Marks: [[subject_total_mark]]</label>
+										</div>	
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-2 col-xs-4 col-md-1">
+								<div class="">
+
+									<div class="col-xs-12">
+										<span class="icon"><a href=""><i class="fa fa-plus" ng-click="add_questions()"></i></a></span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12" >
+						<div  ng-repeat="question in question_details.questions" class="col-lg-12 col-bottom-box">
+							<div class="form-group">
+									<label for="inputEmail3" class="col-xs-12 control-label">Questions</label>
+								<div class="col-xs-12">
+							
+									<input class="form-control" name="" type="text" value="" placeholder="Questions"  ng-model="question.question">
+
+								</div>
+							</div>
+							<div class="col-xs-12" >
+								<div class="row" >
+									<div class="col-lg-10 col-xs-8">
+										<div class="col-lt">
+											<div class="col-xs-12">
+
+												<div class="row" >
+
+													<div class="form-group"  ng-repeat="choice in question.choices">
+														<label for="inputEmail3" class="control-label">Enter the Correct Answer</label>
+														<input class="form-control" name="" type="text" ng-model="choice.choice" value="" placeholder="Enter the Correct Answer">
+														<input type="checkbox" ng-model="choice.correct_answer"><label>Tick If Correct Answer</label>
+													</div>
+
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-2 col-xs-4 col-md-1">
+										<div class="col-lt">
+
+											<div class="col-xs-12">
+												<span class="col-bottom-box-icon icon"><a href=""><i class="fa fa-plus" ng-click="add_choices(question)"></i></a></span>
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</div>
+
+							<div class="col-xs-12 col-lg-6">
+								<div class="row" >
+									<div class="form-group">
+										<label for="inputPassword3" class="col-xs-12 control-label">Marks </label>
+										<div class="col-xs-12">
+											<input class="form-control" name="" type="text" value="" placeholder="Marks" ng-model="question.mark">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- <div>
+						<label>Total Subject Marks: [[subject_total_mark]]</label>
+					</div>	
+					<div ng-repeat="question in question_details.questions">
+						<div>
+							<label> Questions</label>  
+						</div>
+						<div>
+							<input type="text" name="question" id="" value="" ng-model="question.question">
+						</div>
+						<div ng-repeat="choice in question.choices"> 
+							<div>
+								<label> Enter The Answer Choice</label>  
+							</div>
+							<div>
+							
+								<input type="text" name="choice" id="" value="" ng-model="choice.choice">
+								<input type="checkbox" ng-model="choice.correct_answer"><label>Tick If Correct Answer</label>
+							
+								
+							</div>
+						</div>
+						<div>
+							<input type="button" class="btn btn-info" value="+" ng-click="add_choices(question)">
+						</div>
+						<div>
+							<label> Assign Mark</label>  
+						</div>
+						<div>
+							<input type="text" name="mark" id="" value="" ng-model="question.mark">
+						</div>
+
+					
+					</div> -->
+						<div>
+							<p class="error_message"> [[validation_error]] </p>			
+						</div>		
+					<div  align="Center">
+						<div class="buttons">
+							{% include 'pagination_div.html' %}
+							<p ng-show="error_flag" class="error_message">[[message]]</p>
+							<input type="submit" value="Save and Continue" ng-click="save_questions()" class="btn btn-info">
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- 
+<div class="col-xs-12 col-wrap" >
+	<form class="form-horizontal">
+		<div class="form-group">
+			<label for="inputEmail3" class="col-xs-12 control-label">Course</label>
+			<div class="col-xs-12">
+				<select class="form-control" id="sel1"name="course" ng-model="question_details.course" ng-options="course.id as course.course for course in courses" ng-change="get_semester()">
+				<option value="">Select</option>
+				</select>
+			</div>
+		</div>
+		<div class="row" >
+			<div class="col-xs-12" >
+				<div class="row" >
+					<div class="col-xs-12 col-lg-6">
+						<div class="form-group">
+							<label for="inputPassword3" class="col-xs-12 control-label">Semester / Part </label>
+						<div class="col-xs-12">
+							<select class="form-control" id="sel1" name="semester" ng-model="question_details.semester" ng-options="semester.id as semester.semester for semester in semesters" ng-change="get_exams()">
+								<option value="">Select</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12 col-lg-6">
+					<div class="form-group">
+						<label for="inputPassword3" class="col-xs-12 control-label">Exam</label>
+						<div class="col-xs-12">
+							<input type="text" name="exam_name" ng-model="exam_name" readonly>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<div class="col-xs-12 col-lg-6">
+			<div class="form-group">
+				<label for="inputPassword3" class="col-xs-12 control-label">Subject</label>
+				<div class="col-xs-12">
+					<select name="subject" ng-model="question_details.subject" ng-options="subject.subject_id as subject.subject for subject in subjects">
+						<option value="">Select</option>	
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-12" >
+			<div class="row" >
+				<div class="col-lg-10 col-xs-8">
+					<div class="col-lt">
+						<div class="col-xs-12 col-border">
+							<p>Add Questions</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-2 col-xs-4 col-md-1">
+					<div class="">
+
+						<div class="col-xs-12">
+							<span class="icon"><a href="#"><i class="fa fa-plus"  ng-click="add_questions()"></i></a></span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	<div class="form-group">
+	    <div class="col-sm-12 ">
+	    <input name="" class="btn btn-primary questions-btn" type="button" value="Save and Continue" />
+	    </div>
+	  </div>
+	</div>	
+    
+</form>-->
+
+{% endblock content %}

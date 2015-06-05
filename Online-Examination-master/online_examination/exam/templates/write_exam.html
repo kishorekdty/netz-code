@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% block title %}Write Exam{% endblock title %}
+{% block body_id %}write_exam{% endblock %}
+
+{% block controller %}
+	ng-controller="WriteExamController" ng-init="init('{{csrf_token}}')"
+{% endblock controller %}
+{% block dialogue_popup %}
+  	{% include 'show_expiring_msg.html' %}
+  	{% include 'confirm_exit.html' %}
+{% endblock %}
+{% block content %}
+<div class="container-center" >
+	<div class="col-xs-12 " align="Center">
+		<div class="row otr-brdr">
+			<div class="col-hd col-wrap">
+				<h4>Write Exam</h4>
+			</div>
+			<div class="col-xs-12 col-wrap">
+				<form class="form-horizontal">
+					<div class="row" >
+						<div class="col-xs-12" >
+							<div class="col-xs-12 col-lg-6">
+								<div class="form-group">
+									<label class="col-xs-12 control-label"> Course</label>  
+								</div>
+								<div class="col-xs-12">
+									<select class="form-control" name="course" ng-model="course" ng-options="course.id as course.course for course in courses" ng-change="get_semester()">
+										<option value="">Select</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-xs-12 col-lg-6">
+								<div class="form-group">
+									<label class="col-xs-12 control-label"> Semester</label>  
+								</div>
+								<div class="col-xs-12">
+									<select  class="form-control" name="semester" ng-model="semester" ng-options="semester.id as semester.semester for semester in semesters" ng-change="get_exams()">
+										<option value="">Select</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row" >
+						<div class="col-xs-12" >
+							<div class="col-xs-12 col-lg-6">
+								<div  class="form-group">
+									<label class="col-xs-12 control-label"> Exam</label>  
+								</div>
+								<div class="col-xs-12">
+									<input  class="form-control" type="text" name="exam_name" ng-model="exam_name" readonly>
+								</div>
+							</div>
+							<div class="col-xs-12 col-lg-6">
+								<div  class="form-group">
+									<label class="col-xs-12 control-label"> Subject </label>  
+								</div>
+								<div class="col-xs-12">
+									<select class="form-control" class="form-control" name="subject" ng-model="subject" ng-options="subject_1 as subject_1.subject for subject_1 in subjects" ng-change="get_question_paper(subject)">
+										<option value="">Select</option>	
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<p class="error_message"> [[validation_error]] </p>
+					<div class="col-xs-12" ng-show="is_exam">
+					    
+					    <div class="col-xs-12 col-lg-6" ng-show="is_exam">
+				    	<div class="form-group">
+				            <label for="inputPassword3" class="col-sm-4 control-label"> Hi</label>[[student_name]]
+				        </div>
+				        <div class="form-group">
+				            <label for="inputPassword3" class="col-sm-4 control-label"> Registration No</label>[[registration_no]]
+				        </div>
+				        <div class="form-group">
+				            <label for="inputPassword3" class="col-sm-4 control-label"> Hall Ticket No</label>[[hall_ticket_no]]
+				        </div>
+				    </div>
+				        <div class="textrt"><label>Exam Duration: [[exam_duration]]</label></div>
+				        <div class="textrt"><label>Your Time Ends At: [[end_time]]</label></div>
+				        <div class="textrt">Time Left: <div id="txt"></div></div>
+
+				        <div class="col-xs-12 col-hd-bottom">
+				            <div class="row" ng-show ="allow_exam">
+				            	<div ng-repeat="question in visible_list">
+									<div class="col-xs-12 col-lg-6 textlt">
+										<label> [[($index)+((current_page-1)*page_interval)+1]].[[question.question]]</label>  
+									</div>
+									<ol class="answer" type="A">
+										<li ng-repeat="choice in question.choices"> 
+											<div>
+												<label> [[choice.choice]]</label>  
+											</div>
+										</li>
+									</ol>
+									<div class="col-xs-12 col-lg-5 textlt">Enter your Choice</div>
+									<ol class="question" type="A">
+										<li ng-repeat="choice in question.choices"> 
+											<div>
+												<input type="radio" value="[[choice.id]]" ng-model="question.chosen_answer">
+											</div>
+										</li>
+									</ol>
+				            	</div>
+				            	<div ng-show="questions.length > 0">
+									{% include 'pagination_div.html' %}
+								</div>
+				            	<div class="form-group">
+						            <label for="inputPassword3" class="col-sm-4 control-label"></label>
+						            <div class="col-sm-6">
+						              <p class="error_message"> [[validation_error]] </p>
+						              <input name="" class="btn btn-primary"ng-click="confirm_save()" type="button" value="Save and Continue" />
+					            	</div>
+					          	</div>
+				        	</div>
+				    	</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+ <!-- <div id="main-title">
+	<div class="alert alert-info" align="Center">
+		<h4>Write Exam</h4>
+	</div>
+</div>
+<div>
+	<div>
+		<label> Course</label>  
+	</div>
+	<div>
+		<select name="course" ng-model="course" ng-options="course.id as course.course for course in courses" ng-change="get_semester()">
+			<option value="">Select</option>
+		</select>
+	</div>
+	<div>
+		<label> Semester</label>  
+	</div>
+	<div>
+		<select name="semester" ng-model="semester" ng-options="semester.id as semester.semester for semester in semesters" ng-change="get_exams()">
+			<option value="">Select</option>
+		</select>
+	</div>
+	<div>
+		<label> Exam</label>  
+	</div>
+	<div>
+		<input type="text" name="exam_name" ng-model="exam_name" readonly>
+	</div>
+	<div>
+		<label> Subject </label>  
+	</div>
+	<div>
+		<select name="subject" ng-model="subject" ng-options="subject_1 as subject_1.subject for subject_1 in subjects" ng-change="get_question_paper(subject)">
+			<option value="">Select</option>	
+		</select>
+	</div>
+</div>
+ -->
+
+{% endblock content %}

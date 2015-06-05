@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% block title %}Exam Creation{% endblock title %}
+{% block body_id %}list_exam_schedule{% endblock %}
+
+{% block controller %}
+	ng-controller="ExamController" ng-init="init('{{csrf_token}}')"
+{% endblock controller %}
+
+{% block content %}
+<div class="container-center" align="Center">
+	<div class="col-xs-12 ">
+		<div class="row otr-brdr">
+			<div class="col-hd col-wrap">
+				<div class="alert alert-info" align="Center"><h4>Exam Creation</h4></div>
+			</div>
+			<div class="col-xs-12 col-wrap" >
+				<form action="" id="" name="" method="post" class="form-horizontal">
+					<div class="row" >
+						<div class="col-xs-12 col-lg-6">
+							<div class="form-group">
+
+								<label class="col-xs-12 control-label"> Course</label>  
+								<div class="col-xs-12">
+									<select name="course" class="form-control" ng-model="course" ng-change="get_semester() ">
+										<option value="">Select</option>
+										<option ng-repeat="course in courses" value="[[course.id]]" >[[course.course]]
+										</option>
+									</select>
+								</div>
+							</div>
+						</div>
+								
+						<div class="col-xs-12 col-lg-6">
+							<div class="form-group">
+								<label class="col-xs-12 control-label"> Semester</label>  
+								<div class="col-xs-12">
+									<select name="semester"  class="form-control"ng-model="semester" ng-change="get_students()">
+										<option value="">Select</option>
+										<option ng-repeat="semester in semesters" value="[[semester.id]]"  >[[semester.semester]]
+										</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12 col-lg-6">
+							<div class="form-group">
+								<label class="col-xs-12 control-label"> Student</label>  
+								<div class="col-xs-12">
+									<select name="student"  class="form-control"ng-model="student">
+										<option value="">Select</option>
+										<option ng-repeat="student in students" value="[[student.id]]"  >[[student.name]]
+										</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row" >
+						<div class=" col-xs-12 col-lg-6">
+							<div class="form-group">
+								<label class="col-xs-12 control-label">Start Date</label>
+								<div class="col-xs-12">
+									<input type="text" class="form-control" name="start_date" id="start_date"value="" ng-model="start_date">
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12 col-lg-6">
+							<div class="form-group">
+								<label class="col-xs-12 control-label">End Date</label> 
+								<div class="col-xs-12">
+									<input type="text" class="form-control" name="end_date" id="end_date"value="" ng-model="end_date">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row" >
+						<div class=" col-xs-12 col-lg-6">
+							<div class="form-group">
+								<label  class="col-xs-12 control-label">Exam Total</label><div class="col-xs-12">
+									<input type="text" class="form-control" name="exam_total" value="" ng-model="exam_total" ng-change=""> 
+								</div>
+							</div>
+						</div>
+						<div class=" col-xs-12 col-lg-6">
+							<div class="form-group">
+								<label  class="col-xs-12 control-label">No.Subjects</label>
+								<div class="col-xs-12">
+									<input type="text" class="form-control" name="no_subjects" value="" ng-model="no_subjects" ng-change="add_subjects()"> 
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<label>Subjects</label>
+					<div class="control">
+						<table class="table stripped">
+							<tr>
+								<th>Subject Name</th>
+								<th>Duration</th>
+								<th></th>
+								<th>Total Mark</th>
+								<th>Pass Mark</th>
+							</tr>
+							<tr ng-repeat="subject in subjects">
+								<td>
+									<input class="form-control" type="text" name="subject" id="" value="" ng-model="subject.subject_name">
+								</td>
+								<td>
+									<input class="form-control " type="text" ng-model="subject.duration" />
+
+								</td>
+								<td>
+									<select class="form-control " ng-model="subject.duration_parameter">
+										<option value="">Select</option>
+										<option value="Hours">Hours</option>
+										<option value="Minutes">Minutes</option>
+									</select>
+								</td>
+									
+								<td>
+									<input class="form-control" type="text" name="total_mark" value="" ng-model="subject.total_mark" ng-change="calculate_total_marks()" />
+								</td>
+								<td>
+									<input class="form-control" type="text" name="pass_mark" value="" ng-model="subject.pass_mark">
+								</td>
+							</tr>
+						</table>
+					</div>
+						<div  align="Center">
+						
+							<div class="buttons">
+								<p class="error_message"> [[validation_error]] </p>
+								<p ng-show="error_flag" class="error_message">[[message]]</p>
+								<input type="submit" value="Save and Continue" ng-click="save_new_exam_schedule()" class="btn btn-info">
+								
+							</div>
+						</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

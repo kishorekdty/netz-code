@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Question Paper {% endblock title %}
+{% block body_id %}list_question{% endblock %}
+
+{% block controller %}
+	ng-controller="ListQuestionController" ng-init="init('{{csrf_token}}')"
+{% endblock controller %}
+
+{% block dialogue_popup %}
+	{% include 'exam_schedule_details_view.html' %}
+{% endblock %}
+
+{% block content %}
+	<div class="main-title">
+		<div class="alert alert-info" align="Center">
+			Questions
+		</div>
+		<div class="search_students">
+			<label>Subjects</label>
+			<select class="form-control" ng-model="subject"class="form-control" name="subject"  ng-options="subject as subject.subject for subject in subjects" ng-change="get_question_paper()">
+				<option value="">Select</option>	
+			</select>
+			<p class="error_message"> [[message]] </p>
+		</div>
+		<div class="new_button">		
+			<input type="button" class="btn btn-info" value="New Schedule" ng-click="add_new_exam_schedule()">
+		</div>
+	</div>
+	<div class="section_3_student">
+		<div class="search_student">
+			<table id="list" class="table table-hover" ng-show="questions.length > 0" >
+				<tr class="success" style="font-size: 12px" style="width:auto">
+					<th>Question</th>
+					<th>Mark</th>
+					<th>Edit</th>
+					<th>Delete</th>				  
+				</tr>				
+				<tr ng-repeat="question in visible_list">	
+					<td>[[question.question]]</td>	
+					<td>[[question.mark]]</td>	
+					<td><a href="/exam/edit_question/[[question.id]]/" >Edit</a></td>	
+					<td><a href="/exam/delete_question/[[question.id]]/" >Delete</a></td>
+				</tr>
+			</table> 
+		</div>
+		{% include 'pagination_div.html' %}
+	</div>
+{% endblock content %}

@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}Exam Result{% endblock title %}
+{% block body_id %}result{% endblock %}
+
+{% block controller %}
+	ng-controller="ResultController" ng-init="init('{{csrf_token}}')"
+{% endblock controller %}
+{% block content %}
+<div>
+<form class="form-horizontal">
+	<div class="form-group">
+		<label for="inputEmail3" class="col-sm-3 control-label">Registration No</label>
+		<div class="col-sm-5">
+		    <input type="text" class="form-control" placeholder="Registration No" ng-model="exam_resgistration_no">
+		</div>
+	</div>
+	<div class="col-sm-6">
+		<p class="error_message"> [[validation_error]] </p>
+		<input name="" class="btn btn-primary"ng-click="get_results()" type="button" value="Submit" />
+	</div>
+	<label>[[error_msg]]</label>
+</form>
+</div>
+<div ng-show="exam_results.length > 0">   
+    <div id='student_details_view' style='padding:10px; background:#fff;'>
+        <div class="sign_box">
+            <div class="row-fluid">
+                <div class="span12 sign_mid">
+	               <div id="main-title">
+						<div class="" align="Center"><h3>Student Exam Results</h3></div>
+					</div>
+	               
+					<div class="section_1">
+						<div class="formrow student_detail_section">
+							<br>
+							<img src="/site_media/[[student_details.photo]]" ng-show="student_details.photo != ''"  class="staff_pic"/> 
+							<img src="/static/images/profile_pic.jpeg" ng-hide="student_details.photo != ''"  class="staff_pic"/>
+							<div class="control">
+								<br><br>
+								<label >Student Name:</label> 
+								<label name="student_name" value="" ng-model="student_name">[[student_details.student_name]]</label><br>
+								<label class="bold"> Registration No</label>
+								<label name="registration_no" value="" > &nbsp;[[student_details.registration_no]]</label><br>
+								<label class="bold"> Hallticket No</label>
+								<label name="hall_ticket_no" value="" > &nbsp;[[student_details.hall_ticket_no]]</label><br>
+
+								<label class="bold">Course</label>
+								<label name="course" value="" > &nbsp;[[student_details.course]]</label><br>
+								<label class="bold">Specialization</label>
+								<label name="specialization" value="" > &nbsp;[[ student_details.specialization ]]</label><br>
+								<label class="bold"> Guardian Name </label>
+								<label name="guardian_name" value="" > &nbsp;[[student_details.father_name]]</label><br> 
+								<label class="bold"> Passout Year </label>
+								<label name="passout_year" value="" > &nbsp;[[student_details.pass_out_year]]</label><br>
+								<br><br>
+								
+							</div>
+						</div>
+						
+					</div>				
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<table ng-show="exam_results.length > 0" class="table table-striped">
+	<tr>
+		<th>#</th>
+		<th>Name</th>
+		<th>Exam</th>
+		<th>Subject</th>
+		<th>Result</th>
+		<!-- <th>Total Mark</th> -->
+		<th>Percentage Of Mark</th>
+	</tr>
+	<tr ng-repeat="result in exam_results">
+		<td> [[($index+1)]] </td>
+		<td>[[result.student_name]]</td>
+		<td>[[result.exam_name]]</td>
+		<td>[[result.subject_name]]</td>
+		<td>[[result.status]]</td>
+		<!-- <td>[[result.total_mark]]</td> -->
+		<td>[[result.percentage]]</td>
+	</tr>
+</table>
+{% endblock content %}
